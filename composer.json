@@ -1,0 +1,34 @@
+{
+  "name": "maxpl/chatbase-api",
+  "description": "Chatbase client for bots analytics",
+  "keywords": [
+    "yii",
+    "analytics",
+    "client",
+    "component",
+    "bot",
+    "chatbase"
+  ],
+  "homepage": "https://github.com/Maxpl/chatbase-api",
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Maks Sloboda",
+      "email": "msloboda@ukr.net"
+    }
+  ],
+  "require": {
+    "php": "^5.5|^7.0",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "monolog/monolog": "^1.23",
+    "guzzlehttp/guzzle": "^6.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Maxpl\\chatbaseApi\\": "src/"
+    }
+  }
+}
