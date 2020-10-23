@@ -14,14 +14,14 @@ namespace Maxpl\ChatbaseApi;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
-class ChatbaseClient 
+class ChatbaseClient  extends \yii\base\Component
 {
     /**
      * Version
      *
      * @var string
      */
-    public $version = '0.1.1';
+    public $version = '0.1.3';
 
     /**
      * chatbase.com API URL
@@ -54,7 +54,7 @@ class ChatbaseClient
      *
      * @var \GuzzleHttp\Client
      */
-    private $client;
+    private static $client;
     
     /**
      * Initialize Chatbase
@@ -84,7 +84,7 @@ class ChatbaseClient
             throw new \Exception('Timeout must be a number!');
         }
 
-        self::$client = new Client(['base_uri' => self::$api_uri, 'timeout' => $options['timeout']]);
+        self::$client = new Client(['base_uri' => $this->api_uri, 'timeout' => $options['timeout']]);
 
     }
     
