@@ -21,14 +21,14 @@ class ChatbaseClient
      *
      * @var string
      */
-    public $version = '0.1.0';
+    public $version = '0.1.1';
 
     /**
      * chatbase.com API URL
      *
      * @var string
      */
-    public $api_uri = 'https://chatbase.com/api/message';
+    public $api_uri = 'https://chatbase.com/api';
 
     /**
      * Chatbase bot api key
@@ -36,6 +36,18 @@ class ChatbaseClient
      * @var string
      */
     public $api_key = '';
+    
+    /**
+     * Command
+     * @var string
+     */
+    public $command = '';
+    
+    /**
+     * Platform
+     * @var string
+     */
+    public $platform = 'messenger';
 
     /**
      * Guzzle Client object
@@ -45,15 +57,9 @@ class ChatbaseClient
     private $client;
     
     /**
-     * Command
-     * @var string
-     */
-    public $command = '';
-
-    /**
      * Initialize Chatbase
      *
-     * @param  string $token
+     * @param  string $key
      * @param  array  $options
      *
      * @throws \Exception
@@ -65,7 +71,7 @@ class ChatbaseClient
         }
 
         if ($key) {
-            $this->api_key = $key;
+            $this->setApiKey($key);
         }
         
         $options_default = [
@@ -90,7 +96,7 @@ class ChatbaseClient
      * @return bool|string
      * @throws \Exception
      */
-    public function send($params)
+    public function send(array $params)
     {
         if (!isset($params['command'])) {
             $params['command'] = $this->command;
@@ -109,10 +115,10 @@ class ChatbaseClient
             'type' => 'user',
             'user_id' => 1,
             'time_stamp' => microtime(),
-            'platform' => 'telegram',
-            'message' => 'start dialog',
+            'platform' => $this->platform,
+            'message' => '',
             'version' => $this->version,
-            'session_id' => 1,
+            'session_id' => null,
         ];
 
         $data = array_merge($data, $params);
@@ -123,7 +129,7 @@ class ChatbaseClient
 
         try {
             $response = self::$client->post(
-            $this->api_uri,
+            '/message',
                 [
                     'headers' => [
                         'Content-Type' => 'application/json',
@@ -148,10 +154,25 @@ class ChatbaseClient
         return $responseData;
     }
     
+    public function setApiKey($api_key)
+    {
+        $this->api_key = $api_key;
+        
+        return $this->api_key;
+    }
+    
     public function setCommand($command)
     {
         $this->command = $command;
         
         return $this->command;
     }
+    
+    public function setPlatform($platform)
+    {
+        $this->platform = $platform;
+        
+        return $this->platform;
+    }
+    
 }
