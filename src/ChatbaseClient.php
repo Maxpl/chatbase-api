@@ -14,14 +14,14 @@ namespace Maxpl\ChatbaseApi;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
-class ChatbaseClient 
+class ChatbaseClient  extends \yii\base\Component
 {
     /**
      * Version
      *
      * @var string
      */
-    public $version = '0.1.1';
+    public $version = '0.1.2';
 
     /**
      * chatbase.com API URL

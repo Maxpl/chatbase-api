@@ -1,7 +1,7 @@
 {
   "name": "maxpl/chatbase-api",
   "description": "Chatbase client for bots analytics",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "keywords": [
     "yii",
     "analytics",
@@ -29,7 +29,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Maxpl\\chatbaseApi\\": "src/"
+      "Maxpl\\ChatbaseApi\\": "src/"
     }
   }
 }
