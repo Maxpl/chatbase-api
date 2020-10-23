@@ -21,7 +21,7 @@ class ChatbaseClient  extends \yii\base\Component
      *
      * @var string
      */
-    public $version = '0.1.3';
+    public $version = '0.1.4';
 
     /**
      * chatbase.com API URL
@@ -84,8 +84,10 @@ class ChatbaseClient  extends \yii\base\Component
             throw new \Exception('Timeout must be a number!');
         }
 
-        self::$client = new Client(['base_uri' => $this->api_uri, 'timeout' => $options['timeout']]);
+        self::$client = new Client(['timeout' => $options['timeout']]);
 
+        return $this;
+        
     }
     
     /**
@@ -114,11 +116,11 @@ class ChatbaseClient  extends \yii\base\Component
             'api_key' => $this->api_key,
             'type' => 'user',
             'user_id' => 1,
-            'time_stamp' => microtime(),
+            'time_stamp' => $this->getTimeStamp(),
             'platform' => $this->platform,
             'message' => '',
             'version' => $this->version,
-            'session_id' => null,
+            //'session_id' => null,
         ];
 
         $data = array_merge($data, $params);
@@ -129,18 +131,21 @@ class ChatbaseClient  extends \yii\base\Component
 
         try {
             $response = self::$client->post(
-            '/message',
+                $this->api_uri . '/message',
                 [
                     'headers' => [
-                        'Content-Type' => 'application/json',
+                        'cache-control' => 'no-cache',
+                        'content-type' => 'application/json',
                     ],
                     'json'    => $data,
                 ]
             );
 
-            $result = (string) $response->getBody();
+            $result = $response->getBody()->getContents();
+            
         } catch (RequestException $e) {
             $result = $e->getMessage();
+            \Yii::info($result);
         }
 
         $responseData = json_decode($result, true);
@@ -175,4 +180,14 @@ class ChatbaseClient  extends \yii\base\Component
         return $this->platform;
     }
     
+    /**
+     * @return string
+     */
+    private function getTimeStamp()
+    {
+        $microtime = round(microtime(true) * 1000);
+        
+        return number_format($microtime, 0, ".", "");
+    }
+
 }
