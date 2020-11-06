@@ -21,7 +21,7 @@ class ChatbaseClient  extends \yii\base\Component
      *
      * @var string
      */
-    public $version = '0.1.4';
+    public $version = '0.1.5';
 
     /**
      * chatbase.com API URL
@@ -108,7 +108,7 @@ class ChatbaseClient  extends \yii\base\Component
         
         unset($params['command']);
 
-        if (empty($this->api_key) || !$command) {
+        if (empty($this->api_key)) {
             return false;
         }
 
@@ -118,7 +118,7 @@ class ChatbaseClient  extends \yii\base\Component
             'user_id' => 1,
             'time_stamp' => $this->getTimeStamp(),
             'platform' => $this->platform,
-            'message' => '',
+            //'message' => '',
             'version' => $this->version,
             //'session_id' => null,
         ];
