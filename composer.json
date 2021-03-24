@@ -1,7 +1,7 @@
 {
   "name": "maxpl/chatbase-api",
   "description": "Chatbase client for bots analytics",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "keywords": [
     "yii",
     "analytics",

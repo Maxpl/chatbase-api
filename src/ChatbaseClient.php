@@ -21,7 +21,7 @@ class ChatbaseClient  extends \yii\base\Component
      *
      * @var string
      */
-    public $version = '0.1.5';
+    public $version = '0.1.6';
 
     /**
      * chatbase.com API URL
@@ -67,7 +67,7 @@ class ChatbaseClient  extends \yii\base\Component
     public function init($key = '', array $options = [])
     {
         if (empty($key) && empty($this->api_key)) {
-            throw new \Exception('Chatbase key is empty!');
+            return $this;
         }
 
         if ($key) {
@@ -93,10 +93,10 @@ class ChatbaseClient  extends \yii\base\Component
     /**
      * Send Message
      *
-     * @param array $params
+     * @param array $params ['user_id' => int, 'message' => string, 'session' => optional]
      *
      * @return bool|string
-     * @throws \Exception
+     * @throws \Exception GuzzleHttp\Exception\RequestException
      */
     public function send(array $params)
     {
@@ -109,7 +109,7 @@ class ChatbaseClient  extends \yii\base\Component
         unset($params['command']);
 
         if (empty($this->api_key)) {
-            return false;
+            return 'api key is empty!';
         }
 
         $data = [
@@ -145,7 +145,8 @@ class ChatbaseClient  extends \yii\base\Component
             
         } catch (RequestException $e) {
             $result = $e->getMessage();
-            \Yii::info($result);
+            if (YII_DEBUG)
+                \Yii::info($result);
         }
 
         $responseData = json_decode($result, true);
@@ -181,6 +182,7 @@ class ChatbaseClient  extends \yii\base\Component
     }
     
     /**
+     * Convert current microtime * 1000 without dot
      * @return string
      */
     private function getTimeStamp()
